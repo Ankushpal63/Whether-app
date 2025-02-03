@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter city name" class="inp-text" spellcheck="false">
+            <button class="search-btn"><img src="image/search.png" alt="logo"></button>
+        </div>
+        <div class="weather">
+            <div class="container" url="">
+
+
+                <!-- <img src="image" alt="logo" id="weather-icon"> -->
+            </div>
+            <h1 class="temp">22°c</h1>
+            <h2 class="city">India</h2>
+            <h5 class="feels"> Feels like</h5>
+            <span>
+                <h5 class="feels_like"> 45°c</h5>
+            </span>
+            <div class="details">
+                <div class="clo">
+                    <img src="image/humiditi.png" alt="logo">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>humidity</p>
+                    </div>
+
+                </div>
+                <div class="clo">
+                    <img src="image/wind.png" alt="logo">
+                    <div>
+                        <p class="wind">15 km/hour </p>
+                        <p>Wind Speed</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        const apiKey = "c5d7c8cf997142499a4181358242909&q";
+        const apiUrl = "https://api.weatherapi.com/v1/current.json?key=c5d7c8cf997142499a4181358242909&q=";
+
+        const searchBox = document.querySelector(".inp-text");
+        const searchbtn = document.querySelector(".search-btn");
+        const container = document.querySelector(".container");
+
+
+
+        async function cheackWeather(city) {
+            const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+            var data = await response.json()
+
+
+            console.log(data);
+
+
+
+            document.querySelector(".container").innerHTML =
+                data.current.condition.text;
+            document.querySelector(".container").innerHTML =
+                data.current.condition.icon;
+
+
+            document.querySelector(".city").innerHTML = data.location.name;
+
+            document.querySelector(".feels_like").innerHTML = data.current
+                .feelslike_c + "°c";
+
+            document.querySelector(".temp").innerHTML = data.current
+                .temp_c + "°c";
+            document.querySelector(".humidity").innerHTML = data.current.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.current.wind_kph + "km/h";
+
+
+        };
+        searchbtn.addEventListener("click", () => {
+            cheackWeather(searchBox.value);
+
+        });
+
+
+    </script>
+</body>
+
+</html>
